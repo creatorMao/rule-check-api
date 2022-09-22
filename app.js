@@ -1,6 +1,7 @@
 import express from 'express'
 import { connectDb, createTable } from './Helper/dbHelper.js'
 import { createTableSqlList } from './Database/createTable.js'
+import { addConstGroup, getConstGroupList } from './Service/Config/ConstGroup.js'
 
 const initDb = async () => {
 
@@ -22,8 +23,21 @@ const initExpress = () => {
   const app = express()
   const port = 3000
 
+  app.use(express.json())
+  app.use(express.urlencoded({ extended: false }))
+
   app.get('/', (req, res) => {
     res.send('Hello World!')
+  })
+
+  app.post('/config/constGroup/add', function (req, res) {
+    let result = addConstGroup(req.body);
+    res.send(result)
+  })
+
+  app.post('/config/constGroup/get', async function (req, res) {
+    let result = await getConstGroupList();
+    res.send(result)
   })
 
   app.listen(port, () => {
