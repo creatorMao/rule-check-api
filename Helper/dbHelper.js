@@ -39,10 +39,6 @@ const getRowsBySql = (db = currentDb, sql, param) => {
 }
 
 const runSql = (db = currentDb, sql, param = {}) => {
-  Object.keys(param).forEach(key => {
-    param[`$${key}`] = param[key]
-    delete param[key]
-  })
   db.run(sql, param, (err) => {
     console.log(err);
   });

@@ -27,30 +27,30 @@ const initExpress = () => {
   app.use(express.json())
   app.use(express.urlencoded({ extended: false }))
 
+  // #region 测试接口
   app.get('/', (req, res) => {
     res.send('Hello World!')
   })
+  // #endregion
 
+  // #region 常量组
   app.post('/config/constGroup/add', function (req, res) {
-    let result = addConstGroup(req.body);
-    res.send(result)
+    res.send(addConstGroup(req.body))
   })
 
   app.post('/config/constGroup/get', async function (req, res) {
     const page = calcPageRowRange(req.body.pageSize, req.body.pageIndex)
-    let result = await getConstGroupList(page);
-    res.send(result)
+    res.send(await getConstGroupList(page))
   })
 
   app.post('/config/constGroup/delete', function (req, res) {
-    let result = deleteConstGroup(req.body.groupId);
-    res.send(result)
+    res.send(deleteConstGroup(req.body.groupId))
   })
 
   app.post('/config/constGroup/edit', function (req, res) {
-    let result = editConstGroup(req.body);
-    res.send(result)
+    res.send(editConstGroup(req.body))
   })
+  // #endregion
 
   app.listen(port, () => {
     console.log(`程序已启动，请访问${port}端口`)

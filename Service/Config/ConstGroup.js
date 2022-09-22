@@ -6,8 +6,12 @@ const addConstGroup = (groupInfo) => {
   let sql = `insert into CONST_GROUP(ID,GROUP_NAME,REMARK,SORT)
               values($ID,$GROUP_NAME,$REMARK,$SORT)
     `
-  groupInfo["ID"] = createGuid()
-  runSql(undefined, sql, groupInfo);
+  runSql(undefined, sql, {
+    $ID: groupInfo["ID"] || createGuid(),
+    $GROUP_NAME: groupInfo["GROUP_NAME"],
+    $REMARK: groupInfo["REMARK"],
+    $SORT: groupInfo["SORT"],
+  });
 
   return Ok();
 }
@@ -31,19 +35,19 @@ const getConstGroupList = async ({ beginRow, pageSize }) => {
 const deleteConstGroup = (groupId) => {
   let sql = "delete from CONST_GROUP where ID=$ID"
   runSql(undefined, sql, {
-    ID: groupId
+    $ID: groupId
   });
 
   return Ok();
 }
 
-const editConstGroup = (groupInfo = {
-  ID: "",
-  GROUP_NAME: "",
-  REMARK: ""
-}) => {
+const editConstGroup = (groupInfo) => {
   let sql = "update CONST_GROUP set GROUP_NAME=$GROUP_NAME,REMARK=$REMARK where ID=$ID"
-  runSql(undefined, sql, groupInfo);
+  runSql(undefined, sql, {
+    $ID: groupInfo.ID,
+    $GROUP_NAME: groupInfo.GROUP_NAME,
+    $REMARK: groupInfo.REMARK
+  });
 
   return Ok();
 }
