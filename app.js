@@ -1,7 +1,8 @@
 import express from 'express'
 import { connectDb, createTable } from './Helper/dbHelper.js'
 import { createTableSqlList } from './Database/createTable.js'
-import { addConstGroup, getConstGroupList, deleteConstGroup } from './Service/Config/ConstGroup.js'
+import { calcPageRowRange } from './Helper/pageHelper.js'
+import { addConstGroup, getConstGroupList, deleteConstGroup, editConstGroup } from './Service/Config/ConstGroup.js'
 
 const initDb = async () => {
 
@@ -36,12 +37,18 @@ const initExpress = () => {
   })
 
   app.post('/config/constGroup/get', async function (req, res) {
-    let result = await getConstGroupList();
+    const page = calcPageRowRange(req.body.pageSize, req.body.pageIndex)
+    let result = await getConstGroupList(page);
     res.send(result)
   })
 
-  app.post('/config/constGroup/delete', async function (req, res) {
-    let result = await deleteConstGroup(req.body.groupId);
+  app.post('/config/constGroup/delete', function (req, res) {
+    let result = deleteConstGroup(req.body.groupId);
+    res.send(result)
+  })
+
+  app.post('/config/constGroup/edit', function (req, res) {
+    let result = editConstGroup(req.body);
     res.send(result)
   })
 

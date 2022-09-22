@@ -12,12 +12,23 @@ const addConstGroup = (groupInfo) => {
   return Ok();
 }
 
-const getConstGroupList = async () => {
-  let sql = "select * from CONST_GROUP order by imp_time desc"
-  return Ok(undefined, await getRowsBySql(undefined, sql))
+const getConstGroupList = async ({ beginRow, pageSize }) => {
+  let sql = `
+    select t.*,row_count.ROWS_TOTAL from(
+    select * from CONST_GROUP order by sort asc nulls last, imp_time desc limit $beginRow,$pageSize
+    ) t
+    left join(
+    select count(*) as ROWS_TOTAL from CONST_GROUP
+    ) row_count
+    on 1=1
+  `
+  return Ok(undefined, await getRowsBySql(undefined, sql, {
+    $beginRow: beginRow,
+    $pageSize: pageSize
+  }))
 }
 
-const deleteConstGroup = async (groupId) => {
+const deleteConstGroup = (groupId) => {
   let sql = "delete from CONST_GROUP where ID=$ID"
   runSql(undefined, sql, {
     ID: groupId
@@ -26,8 +37,20 @@ const deleteConstGroup = async (groupId) => {
   return Ok();
 }
 
+const editConstGroup = (groupInfo = {
+  ID: "",
+  GROUP_NAME: "",
+  REMARK: ""
+}) => {
+  let sql = "update CONST_GROUP set GROUP_NAME=$GROUP_NAME,REMARK=$REMARK where ID=$ID"
+  runSql(undefined, sql, groupInfo);
+
+  return Ok();
+}
+
 export {
   addConstGroup,
   getConstGroupList,
-  deleteConstGroup
+  deleteConstGroup,
+  editConstGroup
 }

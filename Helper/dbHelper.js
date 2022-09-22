@@ -22,13 +22,13 @@ const createTable = async (db, tableCode, tableName, createTableSql) => {
 
 const checkTableExist = async (db, tableName) => {
   const sql = `SELECT count(*) AS COUNT FROM sqlite_master WHERE type = 'table' and tbl_name = '${tableName}'`
-  const rows = await getRowsBySql(db, sql);
+  const rows = await getRowsBySql(db, sql, {});
   return rows[0]["COUNT"] != '0'
 }
 
-const getRowsBySql = (db = currentDb, sql) => {
+const getRowsBySql = (db = currentDb, sql, param) => {
   return new Promise((resolve, reject) => {
-    db.all(sql, function (err, rows) {
+    db.all(sql, param, function (err, rows) {
       if (err) {
         reject(err);
       } else {
@@ -43,7 +43,9 @@ const runSql = (db = currentDb, sql, param = {}) => {
     param[`$${key}`] = param[key]
     delete param[key]
   })
-  db.run(sql, param);
+  db.run(sql, param, (err) => {
+    console.log(err);
+  });
 }
 
 export {
