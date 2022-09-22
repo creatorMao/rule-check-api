@@ -1,7 +1,8 @@
-const Ok = (msg = '请求成功') => {
+const Ok = (msg = '请求成功', data) => {
   return {
     state: 'ok',
-    msg: msg
+    msg: msg,
+    data
   }
 }
 

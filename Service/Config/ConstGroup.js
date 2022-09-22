@@ -14,7 +14,7 @@ const addConstGroup = (groupInfo) => {
 
 const getConstGroupList = async () => {
   let sql = "select * from CONST_GROUP order by imp_time desc"
-  return await getRowsBySql(undefined, sql)
+  return Ok(undefined, await getRowsBySql(undefined, sql))
 }
 
 const deleteConstGroup = async (groupId) => {
