@@ -1,7 +1,7 @@
 import express from 'express'
 import { connectDb, createTable } from './Helper/dbHelper.js'
 import { createTableSqlList } from './Database/createTable.js'
-import { addConstGroup, getConstGroupList } from './Service/Config/ConstGroup.js'
+import { addConstGroup, getConstGroupList, deleteConstGroup } from './Service/Config/ConstGroup.js'
 
 const initDb = async () => {
 
@@ -37,6 +37,11 @@ const initExpress = () => {
 
   app.post('/config/constGroup/get', async function (req, res) {
     let result = await getConstGroupList();
+    res.send(result)
+  })
+
+  app.post('/config/constGroup/delete', async function (req, res) {
+    let result = await deleteConstGroup(req.body.groupId);
     res.send(result)
   })
 

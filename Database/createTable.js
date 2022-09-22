@@ -8,7 +8,9 @@ const createTableSqlList = [
       ID                VARCHAR(50)   PRIMARY KEY      NOT NULL,
       GROUP_NAME        VARCHAR(500),
       REMARK            TEXT,
-      SORT              INT
+      SORT              INT,
+      IMP_DATE          VARCHAR(10) DEFAULT (date('now')),
+      IMP_TIME          VARCHAR(19) DEFAULT (datetime('now','localtime'))
     );
     `
   },
@@ -23,7 +25,9 @@ const createTableSqlList = [
       CONST_VALUE       VARCHAR(500),    
       CONST_NAME        VARCHAR(500),
       REMARK            TEXT,
-      SORT              INT
+      SORT              INT,
+      IMP_DATE          VARCHAR(10) DEFAULT (date('now')),
+      IMP_TIME          VARCHAR(19) DEFAULT (datetime('now','localtime'))
     );
     `
   }
