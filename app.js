@@ -62,7 +62,8 @@ const initExpress = () => {
   })
 
   app.post('/config/constGroup/delete', function (req, res) {
-    res.send(deleteConstGroup(req.body.groupId))
+    const idList = JSON.parse(req.body.idList)
+    res.send(deleteConstGroup(idList))
   })
 
   app.post('/config/constGroup/edit', function (req, res) {

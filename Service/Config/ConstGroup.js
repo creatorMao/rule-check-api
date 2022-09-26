@@ -32,10 +32,12 @@ const getConstGroupList = async ({ beginRow, pageSize }) => {
   }))
 }
 
-const deleteConstGroup = (groupId) => {
-  let sql = "delete from CONST_GROUP where ID=$ID"
-  runSql(undefined, sql, {
-    $ID: groupId
+const deleteConstGroup = (idList) => {
+  idList.forEach(id => {
+    let sql = "delete from CONST_GROUP where ID=$ID"
+    runSql(undefined, sql, {
+      $ID: id
+    });
   });
 
   return Ok();
