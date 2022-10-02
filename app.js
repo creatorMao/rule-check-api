@@ -2,7 +2,20 @@ import express from 'express'
 import { connectDb, createTable } from './Helper/dbHelper.js'
 import { createTableSqlList } from './Database/createTable.js'
 import { calcPageRowRange } from './Helper/pageHelper.js'
-import { addConstGroup, getConstGroupDetail, getConstGroupList, deleteConstGroup, editConstGroup } from './Service/Config/Const/ConstGroup.js'
+import {
+  addConstGroup,
+  getConstGroupDetail,
+  getConstGroupList,
+  deleteConstGroup,
+  editConstGroup
+} from './Service/Config/Const/ConstGroup.js'
+import {
+  addConst,
+  getConstDetail,
+  getConstList,
+  deleteConst,
+  editConst
+} from './Service/Config/Const/Const.js'
 
 const initDb = async () => {
 
@@ -72,6 +85,30 @@ const initExpress = () => {
 
   app.post('/config/constGroup/edit', function (req, res) {
     res.send(editConstGroup(req.body))
+  })
+  // #endregion
+
+  // #region 常量
+  app.post('/config/const/add', function (req, res) {
+    res.send(addConst(req.body))
+  })
+
+  app.post('/config/const/list', async function (req, res) {
+    const page = calcPageRowRange(req.body.pageSize, req.body.pageIndex)
+    res.send(await getConstList(page))
+  })
+
+  app.post('/config/const/detail', async function (req, res) {
+    res.send(await getConstDetail(req.body.id))
+  })
+
+  app.post('/config/const/delete', function (req, res) {
+    const idList = JSON.parse(req.body.idList)
+    res.send(deleteConst(idList))
+  })
+
+  app.post('/config/const/edit', function (req, res) {
+    res.send(editConst(req.body))
   })
   // #endregion
 
