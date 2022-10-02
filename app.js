@@ -95,7 +95,7 @@ const initExpress = () => {
 
   app.post('/config/const/list', async function (req, res) {
     const page = calcPageRowRange(req.body.pageSize, req.body.pageIndex)
-    res.send(await getConstList(page))
+    res.send(await getConstList(page, req.body.constGroupId))
   })
 
   app.post('/config/const/detail', async function (req, res) {

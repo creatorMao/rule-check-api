@@ -18,7 +18,7 @@ const addConst = (constInfo) => {
   return Ok();
 }
 
-const getConstList = async ({ beginRow, pageSize, constGroupId }) => {
+const getConstList = async ({ beginRow, pageSize }, constGroupId) => {
   let sql = `
     select t.*,row_count.ROWS_TOTAL from(
     select * from CONST WHERE CONST_GROUP_ID=$constGroupId order by sort asc nulls last, imp_time desc limit $beginRow,$pageSize
