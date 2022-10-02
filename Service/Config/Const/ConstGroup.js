@@ -1,6 +1,6 @@
-import { createGuid } from '../../Helper/generatorHelper.js'
-import { runSql, getRowsBySql } from '../../Helper/dbHelper.js'
-import { Ok } from '../../Helper/returnHelper.js'
+import { createGuid } from '../../../Helper/generatorHelper.js'
+import { runSql, getRowsBySql } from '../../../Helper/dbHelper.js'
+import { Ok } from '../../../Helper/returnHelper.js'
 
 const addConstGroup = (groupInfo) => {
   let sql = `insert into CONST_GROUP(ID,GROUP_NAME,REMARK,SORT)
@@ -32,6 +32,15 @@ const getConstGroupList = async ({ beginRow, pageSize }) => {
   }))
 }
 
+const getConstGroupDetail = async (id) => {
+  let sql = `
+   select * from CONST_GROUP where id=$id
+`
+  return Ok(undefined, await getRowsBySql(undefined, sql, {
+    $id: id
+  }))
+}
+
 const deleteConstGroup = (idList) => {
   idList.forEach(id => {
     let sql = "delete from CONST_GROUP where ID=$ID"
@@ -56,6 +65,7 @@ const editConstGroup = (groupInfo) => {
 
 export {
   addConstGroup,
+  getConstGroupDetail,
   getConstGroupList,
   deleteConstGroup,
   editConstGroup
