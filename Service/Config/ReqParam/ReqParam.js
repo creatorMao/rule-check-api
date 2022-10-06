@@ -41,19 +41,20 @@ const editReqParam = (info) => {
   return Ok();
 }
 
-const getReqParamList = async ({ beginRow, pageSize }) => {
+const getReqParamList = async ({ beginRow, pageSize }, groupId) => {
   let sql = `
     select t.*,row_count.ROWS_TOTAL from(
-    select * from REQ_PARAM  order by sort asc nulls last, imp_time desc limit $beginRow,$pageSize
+    select * from REQ_PARAM where group_iD=$groupId  order by sort asc nulls last, imp_time desc limit $beginRow,$pageSize
     ) t
     left join(
-    select count(*) as ROWS_TOTAL from REQ_PARAM 
+    select count(*) as ROWS_TOTAL from REQ_PARAM  where group_iD=$groupId
     ) row_count
     on 1=1
   `
   return Ok(undefined, await getRowsBySql(undefined, sql, {
     $beginRow: beginRow,
-    $pageSize: pageSize
+    $pageSize: pageSize,
+    $groupId: groupId
   }))
 }
 

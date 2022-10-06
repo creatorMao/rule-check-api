@@ -166,7 +166,7 @@ const initExpress = () => {
 
   app.post('/config/reqParam/list', async function (req, res) {
     const page = calcPageRowRange(req.body.pageSize, req.body.pageIndex)
-    res.send(await getReqParamList(page))
+    res.send(await getReqParamList(page, req.body.groupId))
   })
 
   app.post('/config/reqParam/detail', async function (req, res) {
