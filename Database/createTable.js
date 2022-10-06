@@ -30,6 +30,39 @@ const createTableSqlList = [
       IMP_TIME          VARCHAR(19) DEFAULT (datetime('now','localtime'))
     );
     `
+  },
+  {
+    tableCode: 'REQ_PARAM_GROUP',
+    tableName: '请求参数分组',
+    sql: `
+    CREATE TABLE REQ_PARAM_GROUP
+    (
+      ID                VARCHAR(50)   PRIMARY KEY      NOT NULL,
+      GROUP_NAME        VARCHAR(500),
+      GROUP_FIELD       VARCHAR(500),
+      REMARK            TEXT,
+      SORT              INT,
+      IMP_DATE          VARCHAR(10) DEFAULT (date('now')),
+      IMP_TIME          VARCHAR(19) DEFAULT (datetime('now','localtime'))
+    );
+    `
+  },
+  {
+    tableCode: 'REQ_PARAM',
+    tableName: '请求参数',
+    sql: `
+    CREATE TABLE REQ_PARAM
+    (
+      ID                VARCHAR(50)   PRIMARY KEY      NOT NULL,
+      GROUP_ID          VARCHAR(50),
+      PARAM_FIELD       VARCHAR(500),    
+      PARAM_NAME        VARCHAR(500),
+      REMARK            TEXT,
+      SORT              INT,
+      IMP_DATE          VARCHAR(10) DEFAULT (date('now')),
+      IMP_TIME          VARCHAR(19) DEFAULT (datetime('now','localtime'))
+    );
+    `
   }
 ]
 

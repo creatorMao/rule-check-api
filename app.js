@@ -16,6 +16,20 @@ import {
   deleteConst,
   editConst
 } from './Service/Config/Const/Const.js'
+import {
+  addReqParam,
+  deleteReqParam,
+  editReqParam,
+  getReqParamList,
+  getReqParamDetail
+} from './Service/Config/ReqParam/ReqParam.js'
+import {
+  addReqParamGroup,
+  deleteReqParamGroup,
+  editReqParamGroup,
+  getReqParamGroupList,
+  getReqParamGroupDetail,
+} from './Service/Config/ReqParam/ReqParamGroup.js'
 
 const initDb = async () => {
 
@@ -109,6 +123,54 @@ const initExpress = () => {
 
   app.post('/config/const/edit', function (req, res) {
     res.send(editConst(req.body))
+  })
+  // #endregion
+
+  // #region 请求参数组
+  app.post('/config/reqParamGroup/add', function (req, res) {
+    res.send(addReqParamGroup(req.body))
+  })
+
+  app.post('/config/reqParamGroup/delete', function (req, res) {
+    const idList = JSON.parse(req.body.idList)
+    res.send(deleteReqParamGroup(idList))
+  })
+
+  app.post('/config/reqParamGroup/edit', function (req, res) {
+    res.send(editReqParamGroup(req.body))
+  })
+
+  app.post('/config/reqParamGroup/list', async function (req, res) {
+    const page = calcPageRowRange(req.body.pageSize, req.body.pageIndex)
+    res.send(await getReqParamGroupDetail(page))
+  })
+
+  app.post('/config/reqParamGroup/detail', async function (req, res) {
+    res.send(await getReqParamGroupDetail(req.body.id))
+  })
+  // #endregion
+
+  // #region 请求参数
+  app.post('/config/reqParam/add', function (req, res) {
+    res.send(addReqParam(req.body))
+  })
+
+  app.post('/config/reqParam/delete', function (req, res) {
+    const idList = JSON.parse(req.body.idList)
+    res.send(deleteReqParam(idList))
+  })
+
+  app.post('/config/reqParam/edit', function (req, res) {
+    res.send(editReqParamGroup(req.body))
+  })
+
+  app.post('/config/reqParam/list', async function (req, res) {
+    const page = calcPageRowRange(req.body.pageSize, req.body.pageIndex)
+    res.send(await getReqParamList(page))
+  })
+
+  app.post('/config/reqParam/detail', async function (req, res) {
+    res.send(await getReqParamDetail(req.body.id))
   })
   // #endregion
 
